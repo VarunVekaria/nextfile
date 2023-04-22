@@ -10,7 +10,7 @@ function ImageGallery() {
 			);
 			const data = await response.json();
 			setImages(data.data.children);
-			console.log(images);
+			
 		}
 		fetchData();
 	}, []);
@@ -21,9 +21,7 @@ function ImageGallery() {
 		const row = images.slice(i, i + 3);
 		rows.push(row);
 	}
-	{
-		console.log(rows);
-	}
+	
 	return (
 		<div className={`container mx-auto px-4 max-w-6xl m-auto font-bold`}>
 			<div className="bg-slate-50 text-center text-gray-950 text-3xl py-5 my-10 rounded-xl">
