@@ -4,7 +4,8 @@ function ImageGallery() {
 	const [images, setImages] = useState([]);
 	const [count, setcount] = useState("");
 	const [searchText, setSearchText] = useState("");
-	const [common, setCommon] = useState([])
+	const [count1, setCount1] = useState(0);
+
 	// useEffect(() => {
 
 	// 	fetchData();
@@ -20,26 +21,32 @@ function ImageGallery() {
 			);
 			const data = await response.json();
 			setImages(data.data.children);
-			setCommon(data.data.children)
-			console.log(images)
+			// setCommon(data.data.children);
+			console.log(images);
 		}
 	}
 
 	function handleSearch(event) {
 		setSearchText(event.target.value);
-		filteredImages
+		filteredImages;
 	}
 	const filteredImages = images.filter((image) =>
 		image.data.title.toLowerCase().includes(searchText.toLowerCase())
-		
 	);
-
 
 	const rows = [];
 
-	for (let i = 0; i < images.length; i += 3) {
-		const row = images.slice(i, i + 3);
-		rows.push(row);
+	if (count1 === 0) {
+		for (let i = 0; i < images.length; i += 3) {
+			const row = images.slice(i, i + 3);
+			rows.push(row);
+			setCount1(count1 + 1);
+		}
+	} else {
+		for (let i = 0; i < filteredImages.length; i += 3) {
+			const row = filteredImages.slice(i, i + 3);
+			rows.push(row);
+		}
 	}
 
 	return (
@@ -66,17 +73,16 @@ function ImageGallery() {
 						// console.log(image.data);
 						checkImg.src = image.data.url;
 						let title1 = image.data.title;
-						{console.log(filteredImages)}
+						{
+							console.log(filteredImages);
+						}
 						if (checkImg.complete && checkImg.naturalWidth !== 0) {
 							return (
-								<>
-									<img
-										key={imageIndex}
-										className="w-1/3 shadow-xl	p-30 m-20 rounded-2xl mx-2 my-4  transform hover:scale-90 transition-all duration-500 border-slate-600	border-solid border-2"
-										src={image.data.url}
-									/>
-									<p>{title1}</p>
-								</>
+								<img
+									key={imageIndex}
+									className="w-1/3 shadow-xl	p-30 m-20 rounded-2xl mx-2 my-4  transform hover:scale-90 transition-all duration-500 border-slate-600	border-solid border-2"
+									src={image.data.url}
+								/>
 							);
 						} else {
 							return null;
